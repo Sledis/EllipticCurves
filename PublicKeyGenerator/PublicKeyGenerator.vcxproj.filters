@@ -15,16 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="EllipticCurves.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="EllipticCurveClass.cpp">
+    <ClCompile Include="PublicKeyGenerator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ModEllipticCurve.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MathFunctions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BasicMathsFunctions.cpp">
@@ -32,9 +26,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="EllipticCurveClass.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ModEllipticCurve.h">
       <Filter>Header Files</Filter>
     </ClInclude>

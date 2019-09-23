@@ -2,7 +2,6 @@
 #include <iostream>
 #include <vector>
 #include "BasicMathsFunctions.h"
-#include <ctime>
 
 
 
@@ -126,46 +125,23 @@ std::pair<__int64, __int64> ModEllipticCurve::AddedPoint(std::pair<__int64, __in
 }
 
 std::pair<__int64, __int64> ModEllipticCurve::MultipliedPoint(std::pair<__int64, __int64> Point, __int64 mult) {
-	if (mult>0){
-		std::vector<__int64> v = twoAdicBreakDown(mult);
-		std::pair<__int64, __int64> runningSumPoint;
-		bool state = false;
-		for (std::vector<__int64>::iterator it = v.begin(); it != v.end(); it++) {
+	std::vector<__int64> v = twoAdicBreakDown(mult);
+	std::pair<__int64, __int64> runningSumPoint;
+	bool state = false;
+	for (std::vector<__int64>::iterator it = v.begin(); it != v.end(); it++) {
 
-			if (*it == 1) {
-				if (!state) {
-					runningSumPoint = Point;
-					state = true;
-				}
-				else {
-					runningSumPoint = AddedPoint(Point, runningSumPoint);
-				}
+		if (*it == 1) {
+			if (!state) {
+				runningSumPoint = Point;
+				state = true;
 			}
-			Point = DoublePoint(Point);
-		}
-		return runningSumPoint;
-	}
-	else {
-		mult = -mult;
-		std::vector<__int64> v = twoAdicBreakDown(mult);
-		std::pair<__int64, __int64> runningSumPoint;
-		bool state = false;
-		for (std::vector<__int64>::iterator it = v.begin(); it != v.end(); it++) {
-
-			if (*it == 1) {
-				if (!state) {
-					runningSumPoint = Point;
-					state = true;
-				}
-				else {
-					runningSumPoint = AddedPoint(Point, runningSumPoint);
-				}
+			else {
+				runningSumPoint = AddedPoint(Point, runningSumPoint);
 			}
-			Point = DoublePoint(Point);
 		}
-		runningSumPoint.second = -runningSumPoint.second;
-		return runningSumPoint;
+		Point = DoublePoint(Point);
 	}
+	return runningSumPoint;
 }
 
 void ModEllipticCurve::printPoint(std::pair <__int64, __int64> Point) {
@@ -185,25 +161,4 @@ int ModEllipticCurve::GetOrder(std::pair <__int64, __int64> Point) {
 std::pair<__int64, __int64> ModEllipticCurve::getPublicKey(std::pair <__int64, __int64> Point, __int64 privateKey) {
 	std::pair<__int64, __int64> v = MultipliedPoint(Point, privateKey);
 	return v;
-}
-
-
-std::pair< std::pair<__int64, __int64>, std::pair<__int64, __int64>> ModEllipticCurve::GetCipherText(std::pair<__int64, __int64> M, std::pair<__int64, __int64> PublicKey) {
-	srand(time(0));
-	int k = rand();
-	std::cout << k << std::endl;
-
-	std::pair<__int64, __int64> B1 = MultipliedPoint(M, k);
-	std::pair<__int64, __int64> multPublicKey = MultipliedPoint(PublicKey, k);
-	std::pair<__int64, __int64> B2 = AddedPoint(M, multPublicKey);
-
-	return std::pair<std::pair<__int64, __int64>, std::pair<__int64, __int64>>(B1, B2);
-}
-
-
-
-std::pair<__int64, __int64> ModEllipticCurve::Decrypt(std::pair<__int64, __int64> B1, std::pair<__int64, __int64> B2, int privateKey) {
-	std::pair<__int64, __int64> multB1 = MultipliedPoint(B1, -privateKey);
-	std::pair<__int64, __int64> M = AddedPoint(B2, multB1);
-	return M;
 }

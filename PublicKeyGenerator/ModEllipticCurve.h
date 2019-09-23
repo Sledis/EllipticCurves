@@ -14,8 +14,6 @@ public:
 	void printPoint(std::pair <__int64, __int64> Point);
 	int GetOrder(std::pair <__int64, __int64> Point);
 	std::pair<__int64, __int64> getPublicKey(std::pair <__int64, __int64> Point, __int64 privateKey);
-	std::pair< std::pair<__int64, __int64>, std::pair<__int64, __int64>> GetCipherText(std::pair<__int64, __int64>, std::pair<__int64, __int64>);
-	std::pair<__int64, __int64> Decrypt(std::pair<__int64, __int64>, std::pair<__int64, __int64>, int privateKey);
 
 private:
 	__int64 Coefficients[5];
