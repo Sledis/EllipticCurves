@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <fstream>
 
 #include "C:\Users\sam_e\source\repos\EllipticCurves\EllipticCurves\ModEllipticCurve.h"
 
@@ -24,6 +25,9 @@ int main()
 	F.printPoint(Point4);
 
 	
+	string s = F.decryptMessage(Point4, "C:\\Users\\sam_e\\source\\repos\\EllipticCurves\\EllipticCurves\\EncryptedFile.txt");
+	s.pop_back();
+	cout << s  << endl;
 
 	return 0;
 }

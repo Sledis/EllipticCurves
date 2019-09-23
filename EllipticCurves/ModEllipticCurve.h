@@ -1,5 +1,8 @@
 #pragma once
+#include <iostream>
 #include <string>
+#include <fstream>
+#include <map>
 class ModEllipticCurve
 {
 public:
@@ -16,6 +19,10 @@ public:
 	std::pair<__int64, __int64> getPublicKey(std::pair <__int64, __int64> Point, __int64 privateKey);
 	std::pair< std::pair<__int64, __int64>, std::pair<__int64, __int64>> GetCipherText(std::pair<__int64, __int64>, std::pair<__int64, __int64>);
 	std::pair<__int64, __int64> Decrypt(std::pair<__int64, __int64>, std::pair<__int64, __int64>, int privateKey);
+	std::pair<__int64, __int64> characterTransformation(std::pair<__int64, __int64>, char);
+	void encryptMessage(std::pair<__int64, __int64>, std::string);
+	std::map<std::pair<__int64, __int64>, char> createDictionary(std::pair<__int64, __int64>);
+	std::string decryptMessage(std::pair<__int64, __int64>, std::string);
 
 private:
 	__int64 Coefficients[5];

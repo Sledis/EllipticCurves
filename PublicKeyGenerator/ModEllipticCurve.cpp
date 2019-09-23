@@ -2,8 +2,12 @@
 #include <iostream>
 #include <vector>
 #include "BasicMathsFunctions.h"
+#include <ctime>
+#include <string>
+#include <fstream>
+#include <map>
 
-
+using namespace std;
 
 ModEllipticCurve::ModEllipticCurve(__int64 Coefficients_[5], __int64 prime_) :prime(prime_) {
 	for (int i = 0; i < 5; i++) {
@@ -125,23 +129,46 @@ std::pair<__int64, __int64> ModEllipticCurve::AddedPoint(std::pair<__int64, __in
 }
 
 std::pair<__int64, __int64> ModEllipticCurve::MultipliedPoint(std::pair<__int64, __int64> Point, __int64 mult) {
-	std::vector<__int64> v = twoAdicBreakDown(mult);
-	std::pair<__int64, __int64> runningSumPoint;
-	bool state = false;
-	for (std::vector<__int64>::iterator it = v.begin(); it != v.end(); it++) {
+	if (mult>0){
+		std::vector<__int64> v = twoAdicBreakDown(mult);
+		std::pair<__int64, __int64> runningSumPoint;
+		bool state = false;
+		for (std::vector<__int64>::iterator it = v.begin(); it != v.end(); it++) {
 
-		if (*it == 1) {
-			if (!state) {
-				runningSumPoint = Point;
-				state = true;
+			if (*it == 1) {
+				if (!state) {
+					runningSumPoint = Point;
+					state = true;
+				}
+				else {
+					runningSumPoint = AddedPoint(Point, runningSumPoint);
+				}
 			}
-			else {
-				runningSumPoint = AddedPoint(Point, runningSumPoint);
-			}
+			Point = DoublePoint(Point);
 		}
-		Point = DoublePoint(Point);
+		return runningSumPoint;
 	}
-	return runningSumPoint;
+	else {
+		mult = -mult;
+		std::vector<__int64> v = twoAdicBreakDown(mult);
+		std::pair<__int64, __int64> runningSumPoint;
+		bool state = false;
+		for (std::vector<__int64>::iterator it = v.begin(); it != v.end(); it++) {
+
+			if (*it == 1) {
+				if (!state) {
+					runningSumPoint = Point;
+					state = true;
+				}
+				else {
+					runningSumPoint = AddedPoint(Point, runningSumPoint);
+				}
+			}
+			Point = DoublePoint(Point);
+		}
+		runningSumPoint.second = -runningSumPoint.second;
+		return runningSumPoint;
+	}
 }
 
 void ModEllipticCurve::printPoint(std::pair <__int64, __int64> Point) {
@@ -161,4 +188,82 @@ int ModEllipticCurve::GetOrder(std::pair <__int64, __int64> Point) {
 std::pair<__int64, __int64> ModEllipticCurve::getPublicKey(std::pair <__int64, __int64> Point, __int64 privateKey) {
 	std::pair<__int64, __int64> v = MultipliedPoint(Point, privateKey);
 	return v;
+}
+
+
+std::pair< std::pair<__int64, __int64>, std::pair<__int64, __int64>> ModEllipticCurve::GetCipherText(std::pair<__int64, __int64> M, std::pair<__int64, __int64> PublicKey) {
+	srand(time(0));
+	int k = rand();
+	std::cout << k << std::endl;
+
+	std::pair<__int64, __int64> B1 = MultipliedPoint(M, k);
+	std::pair<__int64, __int64> multPublicKey = MultipliedPoint(PublicKey, k);
+	std::pair<__int64, __int64> B2 = AddedPoint(M, multPublicKey);
+
+	return std::pair<std::pair<__int64, __int64>, std::pair<__int64, __int64>>(B1, B2);
+}
+
+
+
+std::pair<__int64, __int64> ModEllipticCurve::Decrypt(std::pair<__int64, __int64> B1, std::pair<__int64, __int64> B2, int privateKey) {
+	std::pair<__int64, __int64> multB1 = MultipliedPoint(B1, -privateKey);
+	std::pair<__int64, __int64> M = AddedPoint(B2, multB1);
+	return M;
+}
+
+
+std::pair<__int64, __int64> ModEllipticCurve::characterTransformation(std::pair<__int64, __int64> point, char letter) {
+	__int64 v=int(letter);
+	return MultipliedPoint(point, v);
+}
+
+void ModEllipticCurve::encryptMessage(std::pair<__int64, __int64> point, std::string message) {
+	std::string Name = "EncryptedFile.txt";
+	std::ofstream EncryptedMessage;
+	EncryptedMessage.open(Name);
+	for (std::string::iterator it = message.begin(); it != message.end(); it++) {
+		std::pair<__int64, __int64> v = characterTransformation(point, *it);
+		EncryptedMessage << v.first << ", " << v.second << std::endl;
+	}
+}
+
+std::map<std::pair<__int64, __int64>,char> ModEllipticCurve::createDictionary(std::pair<__int64, __int64> point) {
+	std::map<std::pair<__int64, __int64>, char> dictionary;
+	for (int i = 0; i < 128; i++) {
+		dictionary[MultipliedPoint(point, i)] = char(i);
+	}
+	return dictionary;
+}
+
+string ModEllipticCurve::decryptMessage(std::pair<__int64, __int64> publicKey,string encryptedMessagelog) {
+	std::map<std::pair<__int64, __int64>, char> dictionary= this->createDictionary(publicKey);
+	ifstream EncryptedFile;
+	EncryptedFile.open(encryptedMessagelog);
+	if (EncryptedFile.is_open()) {
+		
+	}
+	else {
+		
+	}
+	string s;
+	while (!EncryptedFile.eof()) {
+		
+		string line;
+		__int64 xCoord;
+		__int64 yCoord;
+		EncryptedFile >> xCoord;
+		getline(EncryptedFile, line, ' ');
+		EncryptedFile >> yCoord;
+		
+		std::pair<__int64, __int64> point(xCoord, yCoord);
+		char e = dictionary[point];
+		//cout << e << endl;
+		s += e;
+
+
+
+		
+		
+	}
+	return s;
 }

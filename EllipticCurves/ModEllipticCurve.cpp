@@ -3,8 +3,11 @@
 #include <vector>
 #include "BasicMathsFunctions.h"
 #include <ctime>
+#include <string>
+#include <fstream>
+#include <map>
 
-
+using namespace std;
 
 ModEllipticCurve::ModEllipticCurve(__int64 Coefficients_[5], __int64 prime_) :prime(prime_) {
 	for (int i = 0; i < 5; i++) {
@@ -206,4 +209,62 @@ std::pair<__int64, __int64> ModEllipticCurve::Decrypt(std::pair<__int64, __int64
 	std::pair<__int64, __int64> multB1 = MultipliedPoint(B1, -privateKey);
 	std::pair<__int64, __int64> M = AddedPoint(B2, multB1);
 	return M;
+}
+
+
+std::pair<__int64, __int64> ModEllipticCurve::characterTransformation(std::pair<__int64, __int64> point, char letter) {
+	__int64 v=int(letter);
+	return MultipliedPoint(point, v);
+}
+
+void ModEllipticCurve::encryptMessage(std::pair<__int64, __int64> point, std::string message) {
+	std::string Name = "EncryptedFile.txt";
+	std::ofstream EncryptedMessage;
+	EncryptedMessage.open(Name);
+	for (std::string::iterator it = message.begin(); it != message.end(); it++) {
+		std::pair<__int64, __int64> v = characterTransformation(point, *it);
+		EncryptedMessage << v.first << ", " << v.second << std::endl;
+	}
+}
+
+std::map<std::pair<__int64, __int64>,char> ModEllipticCurve::createDictionary(std::pair<__int64, __int64> point) {
+	std::map<std::pair<__int64, __int64>, char> dictionary;
+	for (int i = 0; i < 128; i++) {
+		dictionary[MultipliedPoint(point, i)] = char(i);
+	}
+	return dictionary;
+}
+
+string ModEllipticCurve::decryptMessage(std::pair<__int64, __int64> publicKey,string encryptedMessagelog) {
+	std::map<std::pair<__int64, __int64>, char> dictionary= this->createDictionary(publicKey);
+	ifstream EncryptedFile;
+	EncryptedFile.open(encryptedMessagelog);
+	if (EncryptedFile.is_open()) {
+		
+	}
+	else {
+		
+	}
+	string s;
+	while (EncryptedFile.eof()) {
+		
+		string line;
+		__int64 xCoord;
+		__int64 yCoord;
+		EncryptedFile >> xCoord;
+		getline(EncryptedFile, line, ' ');
+		EncryptedFile >> yCoord;
+		
+		std::pair<__int64, __int64> point(xCoord, yCoord);
+		char e = dictionary[point];
+		
+		s += e;
+
+
+
+		
+		
+	}
+	
+	return s;
 }

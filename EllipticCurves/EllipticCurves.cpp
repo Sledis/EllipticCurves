@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <vector>
+#include <string>
 #include "BasicMathsFunctions.h"
 #include "EllipticCurveClass.h"
 #include "ModEllipticCurve.h"
@@ -55,9 +56,9 @@ int main()
 	cout << "Enter the public Key: " << endl;
 	cin >> value1;
 	cin >> value2;
-
+	
 	std::pair<__int64, __int64> publicKey = std::pair<__int64, __int64>(value1, value2);
-
+	/*
 	std::pair<std::pair<__int64, __int64>, std::pair<__int64, __int64>> v = F.GetCipherText(Point3,publicKey);
 
 	cout << (v.first).first << ", " << v.first.second << endl;
@@ -65,8 +66,19 @@ int main()
 
 
 	std::pair<__int64, __int64> M = F.Decrypt(v.first, v.second, 154624);
-	cout << M.first << ", " << M.second << endl;
+	cout << M.first << ", " << M.second << endl;*/
+	cout << int('a') << endl;
+	std::pair<__int64, __int64> w = F.characterTransformation(publicKey, 'd');
+	F.printPoint(w);
+	cin.clear();
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	string message;
+	cout << "Enter a message: ";
+	getline(cin, message);
 
+	F.encryptMessage(publicKey, message);
+
+	
 	return 0;
 }
 
