@@ -24,7 +24,8 @@ int main()
 	__int64 prime;
 	cout << "Enter a prime (large): " << flush;
 	cin >> prime;
-
+	clock_t time_req;
+	time_req = clock();
 
 	ECDHStarter F(Coefficients, prime);
 
@@ -63,6 +64,8 @@ int main()
 
 	F.createDictionary(startingPoint);
 	
+
+
 	return 0;
 }
 

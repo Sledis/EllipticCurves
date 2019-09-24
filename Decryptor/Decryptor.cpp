@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <ctime>
 #include <map>
 #include "ECDHDecryptor.h"
 
@@ -90,6 +91,7 @@ int main()
 	cout << "Enter the address of the encrypted message: " << flush;
 	getline(cin, encryptedMessageAddress);
 
+
 	ECDHDecryptor Decryptor(Coefficients, prime);
 
 	string s = Decryptor.decryptMessage(dict, encryptedMessageAddress,privateKey);
@@ -98,6 +100,7 @@ int main()
 
 	documents.close();
 	documents.clear();
+
 
 	return 0;
 }

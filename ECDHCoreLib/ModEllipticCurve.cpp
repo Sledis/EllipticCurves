@@ -85,17 +85,22 @@ int ModEllipticCurve::GetGradient(std::pair<__int64, __int64 > point)  {
 	__int64 Denominator = modulo(2 * y + Coefficients[0] * x + Coefficients[1] , prime);
 
 	if (Denominator != 0) {
-		__int64 i = 1;
-		bool state = false;
-		while (!state) {
-			if (modulo(i * Denominator , prime) == 1) {
-				state = true;
-			}
-			else {
-				i++;
-			}
-		}
-		return modulo(Numerator * i , prime);
+		__int64 j = modInverse(Denominator,prime);
+		
+		//cout << modulo(Denominator * j, prime) << endl;
+		//__int64 i = modInverse(Denominator,prime);
+		//__int64 i=1;
+		//bool state = false;
+		//while (!state) {
+		//	if (modulo(i * Denominator , prime) == 1) {
+		//		state = true;
+		//	}
+		//	else {
+		//		i++;
+		//	}
+		//}
+		//cout << j -i << endl;
+		return modulo(Numerator * j , prime);
 	}
 	else {
 		return INT_MIN;
@@ -135,7 +140,10 @@ std::pair<__int64, __int64> ModEllipticCurve::AddedPoint(std::pair<__int64, __in
 			return std::pair<int, int>(INT_MIN, INT_MIN);
 		}
 		bool state = false;
-		__int64 i = 1;
+		__int64 i=1;
+		i = modInverse(Denominator, prime);
+		//cout << modulo(i * Denominator, prime) << endl;
+		/*
 		while (!state) {
 			if (modulo(i * Denominator, prime) == 1) {
 				state = true;
@@ -144,6 +152,7 @@ std::pair<__int64, __int64> ModEllipticCurve::AddedPoint(std::pair<__int64, __in
 				i++;
 			}
 		}
+		*/
 		__int64 grad = modulo(Numerator * i, prime);
 		xNew = modulo(-(-grad * grad - Coefficients[0] * grad + x1+x2 + Coefficients[2]), prime);
 		__int64 yNew1 = (-(y1 + grad * (xNew - x1)));
@@ -215,7 +224,7 @@ int ModEllipticCurve::GetOrder(std::pair <__int64, __int64> Point) {
 std::pair< std::pair<__int64, __int64>, std::pair<__int64, __int64>> ModEllipticCurve::GetCipherText(std::pair<__int64, __int64> M, std::pair<__int64, __int64> PublicKey) {
 	srand(time(0));
 	int k = rand();
-	std::cout << k << std::endl;
+	//std::cout << k << std::endl;
 
 	std::pair<__int64, __int64> B1 = MultipliedPoint(M, k);
 	std::pair<__int64, __int64> multPublicKey = MultipliedPoint(PublicKey, k);

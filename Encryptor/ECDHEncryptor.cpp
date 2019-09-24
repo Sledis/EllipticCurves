@@ -17,6 +17,7 @@ vector<pair<__int64, __int64>> ECDHEncryptor::messageTransformation(std::pair<__
 	vector<pair<__int64, __int64>> v;
 	for (string::iterator it = message.begin(); it != message.end(); it++) {
 		std::pair<__int64, __int64> pointFromLetter = E.characterTransformation(startingPoint, *it);
+		//cout << pointFromLetter.first << " " << pointFromLetter.second << endl;
 		v.push_back(pointFromLetter);
 	}
 	return v;

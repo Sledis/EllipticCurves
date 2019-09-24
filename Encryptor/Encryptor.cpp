@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <ctime>
 #include "ModEllipticCurve.h"
 #include "ECDHEncryptor.h"
 using namespace std;
@@ -53,6 +54,7 @@ int main()
 	
 	__int64 yCoord;
 	publicKey >> yCoord;
+
 	
 	
 
@@ -62,9 +64,14 @@ int main()
 	cout << "Enter a message: ";
 	getline(cin, message);
 
+
+
 	vector<pair<__int64, __int64>>v=E.messageTransformation(startingPoint, message);
 
+
+
 	E.encrypt(v, publicPoint, startingPoint);
+	
 	
 	return 0;
 }
