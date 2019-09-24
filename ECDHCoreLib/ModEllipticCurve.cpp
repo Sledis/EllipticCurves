@@ -1,3 +1,5 @@
+#include "pch.h"
+#include "framework.h"
 #include "ModEllipticCurve.h"
 #include <iostream>
 #include <vector>
@@ -9,10 +11,32 @@
 
 using namespace std;
 
+ModEllipticCurve::ModEllipticCurve() :prime(3) {
+	for (int i = 0; i < 5; i++) {
+		Coefficients[i] = 0;
+	}
+	infinity = std::pair <__int64, __int64>(INT_MIN, INT_MIN);
+};
+
 ModEllipticCurve::ModEllipticCurve(__int64 Coefficients_[5], __int64 prime_) :prime(prime_) {
 	for (int i = 0; i < 5; i++) {
 		Coefficients[i] = Coefficients_[i];
 	}
+	infinity = std::pair <__int64, __int64>(INT_MIN, INT_MIN);
+};
+
+ModEllipticCurve::ModEllipticCurve(const __int64 Coefficients_[5], const __int64 &prime_) :prime(prime_) {
+	for (int i = 0; i < 5; i++) {
+		Coefficients[i] = Coefficients_[i];
+	}
+	infinity = std::pair <__int64, __int64>(INT_MIN, INT_MIN);
+};
+
+void ModEllipticCurve::set(__int64 Coefficients_[5],__int64 prime_) {
+	for (int i = 0; i < 5; i++) {
+		Coefficients[i] = Coefficients_[i];
+	}
+	prime = prime_;
 	infinity = std::pair <__int64, __int64>(INT_MIN, INT_MIN);
 };
 
@@ -185,10 +209,7 @@ int ModEllipticCurve::GetOrder(std::pair <__int64, __int64> Point) {
 	return i;
 }
 
-std::pair<__int64, __int64> ModEllipticCurve::getPublicKey(std::pair <__int64, __int64> Point, __int64 privateKey) {
-	std::pair<__int64, __int64> v = MultipliedPoint(Point, privateKey);
-	return v;
-}
+
 
 
 std::pair< std::pair<__int64, __int64>, std::pair<__int64, __int64>> ModEllipticCurve::GetCipherText(std::pair<__int64, __int64> M, std::pair<__int64, __int64> PublicKey) {
@@ -246,7 +267,7 @@ string ModEllipticCurve::decryptMessage(std::pair<__int64, __int64> publicKey,st
 		
 	}
 	string s;
-	while (!EncryptedFile.eof()) {
+	while (EncryptedFile.eof()) {
 		
 		string line;
 		__int64 xCoord;
@@ -257,7 +278,7 @@ string ModEllipticCurve::decryptMessage(std::pair<__int64, __int64> publicKey,st
 		
 		std::pair<__int64, __int64> point(xCoord, yCoord);
 		char e = dictionary[point];
-		//cout << e << endl;
+		
 		s += e;
 
 
@@ -265,5 +286,6 @@ string ModEllipticCurve::decryptMessage(std::pair<__int64, __int64> publicKey,st
 		
 		
 	}
+	
 	return s;
 }

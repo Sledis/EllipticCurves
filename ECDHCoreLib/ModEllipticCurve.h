@@ -3,10 +3,12 @@
 #include <string>
 #include <fstream>
 #include <map>
-class ModEllipticCurve
-{
+class ModEllipticCurve{
 public:
+	ModEllipticCurve();
 	ModEllipticCurve(__int64 Coefficients[5],__int64 prime);
+	ModEllipticCurve( const __int64 Coefficients[5], const __int64 &prime);
+	void set(__int64 Coefficients[5], __int64 prime);
 	int PointEvaluation(std::pair<__int64, __int64> Point);
 	std::pair<__int64, __int64> FindPoint();
 	int xSearch(__int64 xCoord);
@@ -16,7 +18,7 @@ public:
 	std::pair<__int64, __int64> MultipliedPoint(std::pair<__int64, __int64> Point, __int64 mult);
 	void printPoint(std::pair <__int64, __int64> Point);
 	int GetOrder(std::pair <__int64, __int64> Point);
-	std::pair<__int64, __int64> getPublicKey(std::pair <__int64, __int64> Point, __int64 privateKey);
+	
 	std::pair< std::pair<__int64, __int64>, std::pair<__int64, __int64>> GetCipherText(std::pair<__int64, __int64>, std::pair<__int64, __int64>);
 	std::pair<__int64, __int64> Decrypt(std::pair<__int64, __int64>, std::pair<__int64, __int64>, int privateKey);
 	std::pair<__int64, __int64> characterTransformation(std::pair<__int64, __int64>, char);

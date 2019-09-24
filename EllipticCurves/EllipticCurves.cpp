@@ -63,10 +63,10 @@ int main()
 
 	cout << (v.first).first << ", " << v.first.second << endl;
 	cout << (v.second).first << ", " << v.second.second << endl;
-
-
+	/*
+	/*
 	std::pair<__int64, __int64> M = F.Decrypt(v.first, v.second, 154624);
-	cout << M.first << ", " << M.second << endl;*/
+	cout << M.first << ", " << M.second << endl;
 	cout << int('a') << endl;
 	std::pair<__int64, __int64> w = F.characterTransformation(publicKey, 'd');
 	F.printPoint(w);
@@ -77,7 +77,7 @@ int main()
 	getline(cin, message);
 
 	F.encryptMessage(publicKey, message);
-
+	*/
 	
 	return 0;
 }

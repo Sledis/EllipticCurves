@@ -1,10 +1,7 @@
+#include "ModEllipticCurve.h"
+#include "ECDHStarter.h"
 #include <iostream>
-#include <vector>
-#include <fstream>
 #include <time.h>
-
-#include "C:\Users\sam_e\source\repos\EllipticCurves\EllipticCurves\ModEllipticCurve.h"
-#include "ECDHEstablishing.h"
 
 using namespace std;
 
@@ -29,52 +26,43 @@ int main()
 	cin >> prime;
 
 
-	ECDHEstablishing F(Coefficients, prime);
+	ECDHStarter F(Coefficients, prime);
 
 	std::pair <int, int> startingPoint = F.FindPoint();
 
 	srand(time(0));
 	__int64 privateKey = rand();
 	std::pair <__int64, __int64> publicPoint = F.getPublicKey(startingPoint, privateKey);
-	
+
 
 	ofstream keys;
-	
+
 	keys.open("publicKey.txt");
 	for (int i = 0; i < 4; i++) {
 		keys << Coefficients[i] << " ";
 	}
 	keys << Coefficients[4] << endl;
 	keys << prime << endl;
+	keys << startingPoint.first << " " << startingPoint.second << endl;
 	keys << publicPoint.first << " " << publicPoint.second << endl;
 	keys.close();
 	keys.clear();
 
-	
+
 	keys.open("privateKey.txt");
 	for (int i = 0; i < 4; i++) {
 		keys << Coefficients[i] << " ";
 	}
 	keys << Coefficients[4] << endl;
 	keys << prime << endl;
+	keys << startingPoint.first << " " << startingPoint.second << endl;
 	keys << publicPoint.first << " " << publicPoint.second << endl;
 	keys << privateKey;
 	keys.close();
 	keys.clear();
 
-
-	/*
-
-	cout << "Your private key is: " << privateKey << ". Do not forget this." << endl;
-	std::pair <int, int> Point4 = F.getPublicKey(Point3, privateKey);
-	cout << "Your public key is: " << flush;
-	F.printPoint(Point4);
-
+	F.createDictionary(startingPoint);
 	
-	string s = F.decryptMessage(Point4, "C:\\Users\\sam_e\\source\\repos\\EllipticCurves\\EllipticCurves\\EncryptedFile.txt");
-	s.pop_back();
-	cout << s  << endl;
-	*/
 	return 0;
 }
 

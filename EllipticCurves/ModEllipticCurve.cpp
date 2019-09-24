@@ -9,10 +9,32 @@
 
 using namespace std;
 
+ModEllipticCurve::ModEllipticCurve() :prime(3) {
+	for (int i = 0; i < 5; i++) {
+		Coefficients[i] = 0;
+	}
+	infinity = std::pair <__int64, __int64>(INT_MIN, INT_MIN);
+};
+
 ModEllipticCurve::ModEllipticCurve(__int64 Coefficients_[5], __int64 prime_) :prime(prime_) {
 	for (int i = 0; i < 5; i++) {
 		Coefficients[i] = Coefficients_[i];
 	}
+	infinity = std::pair <__int64, __int64>(INT_MIN, INT_MIN);
+};
+
+ModEllipticCurve::ModEllipticCurve(const __int64 Coefficients_[5], const __int64 &prime_) :prime(prime_) {
+	for (int i = 0; i < 5; i++) {
+		Coefficients[i] = Coefficients_[i];
+	}
+	infinity = std::pair <__int64, __int64>(INT_MIN, INT_MIN);
+};
+
+void ModEllipticCurve::set(__int64 Coefficients_[5],__int64 prime_) {
+	for (int i = 0; i < 5; i++) {
+		Coefficients[i] = Coefficients_[i];
+	}
+	prime = prime_;
 	infinity = std::pair <__int64, __int64>(INT_MIN, INT_MIN);
 };
 
@@ -185,11 +207,8 @@ int ModEllipticCurve::GetOrder(std::pair <__int64, __int64> Point) {
 	return i;
 }
 
-std::pair<__int64, __int64> ModEllipticCurve::getPublicKey(std::pair <__int64, __int64> Point, __int64 privateKey) {
-	std::pair<__int64, __int64> v = MultipliedPoint(Point, privateKey);
-	return v;
-}
 
+/*
 
 std::pair< std::pair<__int64, __int64>, std::pair<__int64, __int64>> ModEllipticCurve::GetCipherText(std::pair<__int64, __int64> M, std::pair<__int64, __int64> PublicKey) {
 	srand(time(0));
@@ -202,7 +221,7 @@ std::pair< std::pair<__int64, __int64>, std::pair<__int64, __int64>> ModElliptic
 
 	return std::pair<std::pair<__int64, __int64>, std::pair<__int64, __int64>>(B1, B2);
 }
-
+*/
 
 
 std::pair<__int64, __int64> ModEllipticCurve::Decrypt(std::pair<__int64, __int64> B1, std::pair<__int64, __int64> B2, int privateKey) {
@@ -211,7 +230,7 @@ std::pair<__int64, __int64> ModEllipticCurve::Decrypt(std::pair<__int64, __int64
 	return M;
 }
 
-
+/*
 std::pair<__int64, __int64> ModEllipticCurve::characterTransformation(std::pair<__int64, __int64> point, char letter) {
 	__int64 v=int(letter);
 	return MultipliedPoint(point, v);
@@ -226,7 +245,7 @@ void ModEllipticCurve::encryptMessage(std::pair<__int64, __int64> point, std::st
 		EncryptedMessage << v.first << ", " << v.second << std::endl;
 	}
 }
-
+/*
 std::map<std::pair<__int64, __int64>,char> ModEllipticCurve::createDictionary(std::pair<__int64, __int64> point) {
 	std::map<std::pair<__int64, __int64>, char> dictionary;
 	for (int i = 0; i < 128; i++) {
@@ -234,6 +253,7 @@ std::map<std::pair<__int64, __int64>,char> ModEllipticCurve::createDictionary(st
 	}
 	return dictionary;
 }
+
 
 string ModEllipticCurve::decryptMessage(std::pair<__int64, __int64> publicKey,string encryptedMessagelog) {
 	std::map<std::pair<__int64, __int64>, char> dictionary= this->createDictionary(publicKey);
@@ -267,4 +287,4 @@ string ModEllipticCurve::decryptMessage(std::pair<__int64, __int64> publicKey,st
 	}
 	
 	return s;
-}
+}*/

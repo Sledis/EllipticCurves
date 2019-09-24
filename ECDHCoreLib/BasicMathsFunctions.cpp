@@ -1,5 +1,8 @@
+#include "pch.h"
+#include "framework.h"
 #include <vector>
 #include "BasicMathsFunctions.h"
+
 __int64 modulo(__int64 a, __int64 b) {
 	int m = a % b;
 	if (m < 0) {

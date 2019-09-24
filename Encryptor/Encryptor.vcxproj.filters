@@ -15,15 +15,15 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="PublicKeyGenerator.cpp">
+    <ClCompile Include="Encryptor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ECDHEstablishing.cpp">
+    <ClCompile Include="ECDHEncryptor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ECDHEstablishing.h">
+    <ClInclude Include="ECDHEncryptor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

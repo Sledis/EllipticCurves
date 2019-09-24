@@ -20,9 +20,9 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
-    <ProjectGuid>{0E3C1280-E150-4805-AAC1-A8AC8BA3AEE7}</ProjectGuid>
+    <ProjectGuid>{3070CA3E-1CFA-4317-8A47-72D7D818E216}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>PublicKeyGenerator</RootNamespace>
+    <RootNamespace>KeyGenerator</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -91,13 +91,11 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\sam_e\source\repos\EllipticCurves\EllipticCurves;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalUsingDirectories>C:\Users\sam_e\source\repos\EllipticCurves\EllipticCurves;%(AdditionalUsingDirectories)</AdditionalUsingDirectories>
+      <AdditionalIncludeDirectories>C:\Users\sam_e\source\repos\EllipticCurves\ECDHCoreLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\sam_e\source\repos\EllipticCurves\EllipticCurves;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -145,28 +143,26 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\sam_e\source\repos\EllipticCurves\EllipticCurves;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalUsingDirectories>C:\Users\sam_e\source\repos\EllipticCurves\EllipticCurves;%(AdditionalUsingDirectories)</AdditionalUsingDirectories>
+      <AdditionalIncludeDirectories>C:\Users\sam_e\source\repos\EllipticCurves\ECDHCoreLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\sam_e\source\repos\EllipticCurves\EllipticCurves;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ECDHEstablishing.cpp" />
-    <ClCompile Include="PublicKeyGenerator.cpp" />
+    <ClCompile Include="ECDHStarter.cpp" />
+    <ClCompile Include="KeyGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EllipticCurves\EllipticCurves.vcxproj">
-      <Project>{5ce5d0be-253f-42db-8add-74d3b2823bba}</Project>
+    <ClInclude Include="ECDHStarter.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ECDHCoreLib\ECDHCoreLib.vcxproj">
+      <Project>{060a9a59-e98a-4a21-a2ef-b32201198ae3}</Project>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="ECDHEstablishing.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
